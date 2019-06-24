@@ -25,7 +25,11 @@ scrapeIt("https://ionicabizau.net", {
             // Get the article date and convert it into a Date object
             createdAt: {
                 selector: ".date"
-              , convert: x => new Date(x)
+              , convert: async x => await new Promise(resolve => {
+                  setTimeout(() => {
+                      resolve(new Date(x))
+                  }, 1000)
+                })
             }
 
             // Get the title
@@ -69,8 +73,8 @@ scrapeIt("https://ionicabizau.net", {
         selector: ".header img"
       , attr: "src"
     }
-}, (err, { data }) => {
-    console.log(err || data)
+}, (err, scrapedData) => {
+    console.log(err || scrapedData.data)
 })
 // { articles:
 //    [ { createdAt: Mon Mar 14 2016 00:00:00 GMT+0200 (EET),
